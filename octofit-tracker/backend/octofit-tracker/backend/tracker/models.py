@@ -38,3 +38,25 @@ class ActivityLog(models.Model):
 
     def __str__(self):
         return f"{self.athlete} {self.activity_type} {self.date}"
+
+
+# Leaderboard model
+class Leaderboard(models.Model):
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='leaderboards')
+    total_points = models.PositiveIntegerField(default=0)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Leaderboard for {self.team.name}"
+
+
+# Workout model
+class Workout(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    duration_minutes = models.PositiveIntegerField()
+    created_by = models.ForeignKey(AthleteProfile, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
